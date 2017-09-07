@@ -1,4 +1,4 @@
 from getinformation import getinformation
 
-result = getinformation("information.txt", 10)
+result = getinformation("data", 10)
 print result
