@@ -18,23 +18,18 @@
 		</div>
 
 		<div class="row justify-content-md-center">
-			<br>
-			<p>Cliente: {{ nombre }} </p>
-		</div>
-
-		<div class="row justify-content-md-center">
 			<form action="/form" method="POST">
 				<div class="form-group">
 					<div class="col-md-12">
 						<label for="muestreo" class="control-label">Tiempo de muestreo:</label> <br>
 						<select class="form-control" id="muestreo">
-								<option value="1">1 seg</option>
-								<option value="2">2 seg</option>
-								<option value="5">5 seg</option>
-								<option value="10">10 seg</option>
-								<option value="30">30 seg</option>
-								<option value="60">60 seg</option>
-							</select>
+							<option value="1">1 seg</option>
+							<option value="2">2 seg</option>
+							<option value="5">5 seg</option>
+							<option value="10">10 seg</option>
+							<option value="30">30 seg</option>
+							<option value="60">60 seg</option>
+						</select>
 					</div>
 					<div class="col-md-8">
 						<button type="submit" class="btn btn-outline-primary">Actualizar tiempo</button>
