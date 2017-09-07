@@ -1,0 +1,45 @@
+<html>
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Ejercicio 3 - Datos</title>
+	<!-- JQuery -->
+	<link rel="stylesheet" href="{{ url_for('static',filename='jquery/jquery-3.2.1.min.js') }}">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/4.0.0-alpha.6/css/bootstrap.min.css') }}">
+	<!-- Bootstrap JS -->
+	<link rel="stylesheet" href="{{ url_for('static',filename='bootstrap/4.0.0-alpha.6/js/bootstrap.min.js') }}">
+</head>
+	<body>
+		<div class="container">	
+			<div class="row justify-content-md-center">
+				<p class="h4">Datos meteorologicos</p>
+			</div>
+
+			<div class="row justify-content-md-center">
+				<br>
+				<p>Cliente: {{ nombre }} </p>
+			</div>
+					
+			<div class="row justify-content-md-center">
+				<form action="/form" method="POST">
+					<div class="form-group">
+						<div class="col-md-12">
+							<label for="muestreo" class="control-label">Tiempo de muestreo:</label> <br>
+							<select class="form-control" id="muestreo">
+								<option>1</option>
+								<option>2</option>
+							</select>
+						</div>
+						<div class="col-md-8">
+							<button type="submit" class="btn btn-outline-primary">Actualizar tiempo</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="row justify-content-md-center">
+				Frecuencia de muestreo - Promedio de las últimas 10 muestras - La última muestra
+			</div>
+
+		</div>
+	</body>
+</html>
