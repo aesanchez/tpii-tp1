@@ -9,7 +9,7 @@ from filemutex import mutexV
 
 def worker(count, t_muestreo, filename):
     cant_muestras = 1
-    while cant_muestras < 4:
+    while cant_muestras < 40:
         temp = randint(0, 90)
         humedad = randint(0, 90)
         presion = randint(0, 90)
@@ -19,7 +19,7 @@ def worker(count, t_muestreo, filename):
         mutexP(filename)
         file = open(filename, "a")
         time.sleep(2)
-        file.write("{}-{}|{}|{}|{}\n".format(count, temp,humedad,presion,v_viento))
+        file.write("{}|{}|{}|{}\n".format(temp,humedad,presion,v_viento))
         file.close()
         mutexV(filename)
     return

@@ -1,4 +1,3 @@
-
 from getlastlines import getlastlines
 
 def getinformation(filename, lines):
