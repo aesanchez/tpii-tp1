@@ -1,8 +1,12 @@
+from filemutex import mutexP
+from filemutex import mutexV
+
 def getlastlines( filename, lines ):
     #size=quantity of lines
     size=0 
     #array to return
     array = []
+    mutexP("data")
     f = open (filename,"r")
     for i, l in enumerate(f):
         pass
@@ -22,4 +26,5 @@ def getlastlines( filename, lines ):
         aux = f.readline()
         array.append(aux[0:len(aux)-1])
     f.close()
+    mutexV("data")
     return array

@@ -2,6 +2,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from getinformation import getinformation
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -17,7 +18,8 @@ def action_form():
     if request.method == 'POST':
         data = request.form
         nombre = data["nombre"]
-        return render_template('datos.html', nombre=nombre)
+        argumentos = getinformation("data", 10)
+        return render_template('datos.html', nombre=nombre, argumentos=argumentos)
 
 if __name__ == "__main__":
     # Define HOST y PUERTO para accerder

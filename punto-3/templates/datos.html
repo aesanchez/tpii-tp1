@@ -1,5 +1,6 @@
 <html>
-	<head>
+
+<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Ejercicio 3 - Datos</title>
 	<!-- JQuery -->
@@ -9,37 +10,66 @@
 	<!-- Bootstrap JS -->
 	<script href="{{ url_for('static',filename='bootstrap/js/bootstrap.min.js') }}"></script>
 </head>
-	<body>
-		<div class="container">	
-			<div class="row justify-content-md-center">
-				<p class="h4">Datos meteorologicos</p>
-			</div>
 
-			<div class="row justify-content-md-center">
-				<br>
-				<p>Cliente: {{ nombre }} </p>
-			</div>
-					
-			<div class="row justify-content-md-center">
-				<form action="/form" method="POST">
-					<div class="form-group">
-						<div class="col-md-12">
-							<label for="muestreo" class="control-label">Tiempo de muestreo:</label> <br>
-							<select class="form-control" id="muestreo">
-								<option>1</option>
-								<option>2</option>
-							</select>
-						</div>
-						<div class="col-md-8">
-							<button type="submit" class="btn btn-outline-primary">Actualizar tiempo</button>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="row justify-content-md-center">
-				Frecuencia de muestreo - Promedio de las últimas 10 muestras - La última muestra
-			</div>
-
+<body>
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<p class="h4">Datos meteorologicos</p>
 		</div>
-	</body>
+
+		<div class="row justify-content-md-center">
+			<br>
+			<p>Cliente: {{ nombre }} </p>
+		</div>
+
+		<div class="row justify-content-md-center">
+			<form action="/form" method="POST">
+				<div class="form-group">
+					<div class="col-md-12">
+						<label for="muestreo" class="control-label">Tiempo de muestreo:</label> <br>
+						<select class="form-control" id="muestreo">
+								<option value="1">1 seg</option>
+								<option value="2">2 seg</option>
+								<option value="5">5 seg</option>
+								<option value="10">10 seg</option>
+								<option value="30">30 seg</option>
+								<option value="60">60 seg</option>
+							</select>
+					</div>
+					<div class="col-md-8">
+						<button type="submit" class="btn btn-outline-primary">Actualizar tiempo</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row justify-content-md-center">
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th> Informacion </th>
+						<th> Temperatura </th>
+						<th> Humedad </th>
+						<th> Presion atmosférica </th>
+						<th> Velocidad del viento </th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row"> Promedio ultimas 10 muestras </th>
+						{% for i in range(0,4) %}
+						<td> {{argumentos[i]}} </td>
+						{% endfor %}
+					</tr>
+					<tr>
+						<th scope="row"> Ultima muestra </th>
+						{% for i in range(4,8) %}
+						<td> {{argumentos[i]}} </td>
+						{% endfor %}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
 </html>
