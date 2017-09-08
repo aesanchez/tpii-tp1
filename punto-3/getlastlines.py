@@ -6,7 +6,7 @@ def getlastlines( filename, lines ):
     size=0 
     #array to return
     array = []
-    mutexP("data")
+    mutexP(filename)
     f = open (filename,"r")
     for i, l in enumerate(f):
         pass
@@ -26,5 +26,5 @@ def getlastlines( filename, lines ):
         aux = f.readline()
         array.append(aux[0:len(aux)-1])
     f.close()
-    mutexV("data")
+    mutexV(filename)
     return array

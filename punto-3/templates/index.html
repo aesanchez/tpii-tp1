@@ -14,14 +14,18 @@
 <body>
 	<div class="container">
 		<div class="row justify-content-md-center">
-			<p class="h4">Datos meteorologicos</p>
+			<p class="h2">Datos meteorologicos</p>
+		</div>
+
+		<div class="row justify-content-md-center">
+			<p class="h5">Tiempo de muestreo: {{muestreo}} seg</p>
 		</div>
 
 		<div class="row justify-content-md-center">
 			<form action="/form" method="POST">
 				<div class="form-group">
 					<div class="col-md-12">
-						<label for="muestreo" class="control-label">Tiempo de muestreo:</label> <br>
+						<label for="muestreo" class="control-label">Modificar tiempo de muestreo:</label> <br>
 						<select class="form-control" id="muestreo">
 							<option value="1">1 seg</option>
 							<option value="2">2 seg</option>
@@ -31,7 +35,7 @@
 							<option value="60">60 seg</option>
 						</select>
 					</div>
-					<div class="col-md-8">
+					<div class="row justify-content-md-center">
 						<button type="submit" class="btn btn-outline-primary">Actualizar tiempo</button>
 					</div>
 				</div>
@@ -52,13 +56,13 @@
 					<tr>
 						<th scope="row"> Ultima muestra </th>
 						{% for i in range(0,4) %}
-						<td> {{argumentos[i]}} </td>
+						<td> {{information[i]}} </td>
 						{% endfor %}
 					</tr>
 					<tr>
 						<th scope="row"> Promedio ultimas 10 muestras </th>
 						{% for i in range(4,8) %}
-						<td> {{argumentos[i]}} </td>
+						<td> {{information[i]}} </td>
 						{% endfor %}
 					</tr>
 				</tbody>
