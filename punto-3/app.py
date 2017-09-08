@@ -2,31 +2,35 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from sensors import run
-import threading
+from sensors import Sensores
 from getinformation import getinformation
-import os
 
 app = Flask(__name__, static_url_path='/static')
-#by default
+
+#### Init Code ####
 muestreo = 1
-def init():
-    muestreo = 1
-    filename = "data"
-    #delete previous file
-    if os.path.isfile(filename):
-        os.remove(filename)
-    if os.path.isfile(filename+".lock"):
-        os.remove(filename+".lock")
-    sensores = threading.Thread(target = run, args=(muestreo, filename))
-    sensores.daemon = True  
-    sensores.start()
-init()
+filename ="data"
+mis_sensores = Sensores()
+mis_sensores.start(filename, muestreo)
+#### End Init Code ####
+
 # Define la ruta con la que se ingresara desde el browser
 @app.route('/')
 def index():
-    information = getinformation("data", 10)
+    information = getinformation(filename, 10)
     return render_template('index.html', muestreo = muestreo, information = information)
+
+@app.route('/', methods=['POST'])
+def handle_muestreo():
+    if request.method == 'POST':
+        data = request.form
+        global muestreo
+        muestreo = data["muestreo"]
+        global filename
+        information = getinformation(filename, 10)
+        global mis_sensores
+        mis_sensores.change_sampling(muestreo)
+        return render_template('index.html', muestreo = muestreo, information = information)
 
 if __name__ == "__main__":
     # Define HOST y PUERTO para accerder
