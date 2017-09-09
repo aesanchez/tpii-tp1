@@ -15,7 +15,9 @@ class Sensores:
     sensors_stop_flag = None
     cleaner_thread = None
     cleaner_stop_flag = None
-    max_size = 50
+    cleaner_run_flag = None
+    max_size = 20
+    size = 0
 
     # por alguna razon hay que pasarle self como argumento a los metodos de las clases
     def start(self, filenamearg, muestreoarg):
@@ -34,6 +36,7 @@ class Sensores:
         self.sensors_thread.start()
         # Iniciar thread cleaner
         self.cleaner_stop_flag = threading.Event()
+        self.cleaner_run_flag = threading.Event()
         self.cleaner = threading.Thread(target = self.cleaner_run)
         self.cleaner.daemon = True
         self.cleaner.start()
@@ -47,18 +50,20 @@ class Sensores:
 
     def cleaner_run(self):
         while (not self.cleaner_stop_flag.is_set()):
-            # Inicia durmiendo
-            self.muestreolock.acquire()
-            aux = self.muestreo
-            self.muestreolock.release()
-            self.cleaner_stop_flag.wait(float(aux*self.max_size/2))
-            lastcontent = getlastlines(self.filename, self.max_size/2)
+            # Espera a que lo despierten
+            self.cleaner_run_flag.wait()
+            # Una vez despertado borra ese evento
+            self.cleaner_run_flag.clear()
+            # Leo los ultimos datos sensados
+            lastcontent = getlastlines(self.filename, int(self.max_size/2))
             # Sobreescribimos el archivo original con los datos mas nuevos
             mutexP(self.filename)
             f = open(self.filename, "w")
             for s in lastcontent:
                 f.write(s+"\n")
             f.close()
+            # Actualizamos el espacio ocupado a lo que recupero getlastlines
+            self.size = len(lastcontent)
             mutexV(self.filename)            
         return
 
@@ -72,7 +77,11 @@ class Sensores:
             f = open(self.filename, "a")
             f.write("{}|{}|{}|{}\n".format(temp,humedad,presion,v_viento))
             f.close()
-            mutexV(self.filename)            
+            # Aprovecho este mutex
+            self.size = self.size+1
+            if self.size == self.max_size:
+                self.cleaner_run_flag.set() 
+            mutexV(self.filename)                      
             self.muestreolock.acquire()
             aux = self.muestreo
             self.muestreolock.release()
