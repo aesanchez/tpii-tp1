@@ -26,11 +26,9 @@ def handle_muestreo():
         data = request.form
         global muestreo
         muestreo = data["muestreo"]
-        global filename
-        information = getinformation(filename, 10)
         global mis_sensores
         mis_sensores.change_sampling(muestreo)
-        return render_template('index.html', muestreo = muestreo, information = information)
+        return index()
 
 if __name__ == "__main__":
     # Define HOST y PUERTO para accerder
