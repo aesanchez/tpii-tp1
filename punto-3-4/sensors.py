@@ -7,10 +7,11 @@ import threading
 import os
 
 class Sensores:
+    """Encapsula el mudulo del sensor junto con sus tareas periodicas"""
 
     muestreolock = threading.Lock()
-    muestreo = 1 #by default
-    filename = "data" #by default
+    muestreo = None
+    filename = None
     sensors_thread = None
     sensors_stop_flag = None
     cleaner_thread = None
@@ -19,8 +20,15 @@ class Sensores:
     max_size = 20
     size = 0
 
+    def __init__(self):
+        self.muestreo = 1 #by default
+        self.filename = "data" #by default
+        self.max_size = 20
+        self.size = 0
+
     # por alguna razon hay que pasarle self como argumento a los metodos de las clases
     def start(self, filenamearg, muestreoarg):
+        """Inicia las tareas del simulador"""
         self.size = 0
         self.filename = filenamearg
         self.muestreo = muestreoarg
@@ -43,13 +51,15 @@ class Sensores:
         return
 
     def change_sampling(self, muestreoarg):
+        """Cambia la frecuencia de muestreo"""
         self.muestreolock.acquire()
         self.muestreo = muestreoarg
         self.muestreolock.release()
         return
 
     def cleaner_run(self):
-        while (not self.cleaner_stop_flag.is_set()):
+        """Algoritmo que realiza el proceso limpiador"""
+        while not self.cleaner_stop_flag.is_set():
             # Espera a que lo despierten
             self.cleaner_run_flag.wait()
             # Una vez despertado borra ese evento
@@ -64,33 +74,35 @@ class Sensores:
             f.close()
             # Actualizamos el espacio ocupado a lo que recupero getlastlines
             self.size = len(lastcontent)
-            mutexV(self.filename)            
+            mutexV(self.filename)
         return
 
     def sensors_run(self):
-        while (not self.sensors_stop_flag.is_set()):
+        """Algoritmo que realiza el proceso generador de datos"""
+        while not self.sensors_stop_flag.is_set():
             temp = randint(0, 90)
             humedad = randint(0, 90)
             presion = randint(0, 90)
-            v_viento = randint (0, 90)
+            v_viento = randint(0, 90)
             mutexP(self.filename)
             f = open(self.filename, "a")
-            f.write("{}|{}|{}|{}\n".format(temp,humedad,presion,v_viento))
+            f.write("{}|{}|{}|{}\n".format(temp, humedad, presion, v_viento))
             f.close()
             # Aprovecho este mutex
             self.size = self.size+1
             if self.size == self.max_size:
-                self.cleaner_run_flag.set() 
-            mutexV(self.filename)                      
+                self.cleaner_run_flag.set()
+            mutexV(self.filename)
             self.muestreolock.acquire()
             aux = self.muestreo
             self.muestreolock.release()
             #  es igual a un sleep pero es despertado para que termine
             #  si se le indica que pare con .set()
-            self.sensors_stop_flag.wait(float(aux))            
+            self.sensors_stop_flag.wait(float(aux))
         return
 
     def stop(self):
+        """Detiene la ejecucion del simulador"""
         # thread safe
         self.sensors_stop_flag.set()
         self.cleaner_stop_flag.set()
