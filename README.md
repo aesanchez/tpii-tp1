@@ -10,31 +10,31 @@ Se puede observar lo implementado en [Heroku](https://tpii-tp1.herokuapp.com/).
 
 1. Instalar prerequisitos:
 
-`$ pip install flask gunicorn`
+    `$ pip install flask gunicorn`
 
 2. Desarrollar aplicacion Flask
 3. Detallar nuestro *requirements.txt* con como minimo:
 
-```
-Flask
-gunicorn
-```
+    ```
+    Flask
+    gunicorn
+    ```
 
 4. Crear el Procfile con el siguiente contenido:
 
-`web: gunicorn app:app`
+    `web: gunicorn app:app`
 
 5. Instalar [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) e iniciar sesion:
 
-`$ heroku login`
+    `$ heroku login`
 
 6. Crear un dominio en Heroku
 7. En el directorio del proyecto:
 
-```
-$ heroku git:remote -a <mi_nombre_de_aplicacion_en_heroku>
-$ git push heroku master
-```
+    ```
+    $ heroku git:remote -a <mi_nombre_de_aplicacion_en_heroku>
+    $ git push heroku master
+    ```
 
 ## Alumnos
 * Agustín Sánchez
